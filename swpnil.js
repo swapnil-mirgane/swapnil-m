@@ -3508,7 +3508,7 @@ let landmark = [
 let sty = "mapbox://styles/mapbox/outdoors-v9";
 const map = new mapboxgl.Map({
   accessToken:
-    "pk.eyJ1IjoibWF5dXJ3YWtpa2FyIiwiYSI6ImNsNmdjdGxwbjBiNGMzY282bWh0dng2c2kifQ.y-m4-zQKOeOOnDG5I1u6ng",
+    "pk.eyJ1Ijoic3dhcG5pbC1taXJnYW5lIiwiYSI6ImNsNmdkc3V1NDA3Ymwza25jNjJsOGNyemIifQ.vwcBKjr_2dg839FM-lirCA",
   style: sty,
   center: [73.84411956982794, 18.531337495512236],
   zoom: 10,
