@@ -1,4 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let landmark = [
   {
     name: "Kalewadi - Jyotiba Garden (S)",
@@ -3103,6 +3102,12 @@ let landmark = [
     landmark: "Ghorpadi- War Memorial (L)",
   },
   {
+    name: "Ghotawde Phata-Calyx Navyangan",
+    coordinates: [18.516742, 73.666035],
+    area: null,
+    landmark: "Ghotawde Phata-Calyx Navyangan",
+  },
+  {
     name: "Baner-Ganraj Mangal Hall (M)",
     coordinates: [18.5641, 73.7769],
     area: "Baner ⁣",
@@ -3949,139 +3954,3 @@ let landmark = [
     landmark: "Koregaon Park-German Bakery",
   },
 ];
-
-//style mapbox://styles/mapbox/streets-v9      "mapbox://styles/mapbox/outdoors-v11"
-// "mapbox://styles/mapbox/standard"
-let sty = "mapbox://styles/mapbox/outdoors-v9";
-const map = new mapboxgl.Map({
-  accessToken:
-    "pk.eyJ1Ijoic3dhcG5pbC1taXJnYW5lIiwiYSI6ImNsNmdkc3V1NDA3Ymwza25jNjJsOGNyemIifQ.vwcBKjr_2dg839FM-lirCA",
-  style: sty,
-  center: [73.84411956982794, 18.531337495512236],
-  zoom: 10,
-  minZoom: 5,
-  maxZoom: 15,
-  crossSourceCollisions: false,
-  failIfMajorPerformanceCaveat: false,
-  attributionControl: false,
-  preserveDrawingBuffer: true,
-  hash: false,
-  minPitch: 0,
-  maxPitch: 60,
-  container: "map",
-});
-const marker = new mapboxgl.Marker({
-  draggable: false,
-  color: "#000000",
-});
-
-// try to change to mapa
-landmark.forEach((element) => {
-  new mapboxgl.Marker({
-    color: "#3333ff",
-  })
-    .setLngLat([element.coordinates[1], element.coordinates[0]])
-    .setPopup(
-      new mapboxgl.Popup().setHTML(
-        `<div><b><span>Area:</span></b><h4>${
-          element.area
-        }</h4><b><label>Landmark:</label></b><h4>${element.landmark}</h4>
-                        <b><span>GeoCode : </span><b/> <h3>${[
-                          element.coordinates[0],
-                          element.coordinates[1],
-                        ]}</h3></div>`
-      )
-    )
-    .addTo(map);
-});
-
-let count = 1;
-function myFunctionOnClick_Search() {
-  code = document.getElementById("GeoCode").value;
-  if (code == "") {
-    alert("Please enter the GeoCode!");
-    document.getElementById("GeoCode").focus();
-    return false;
-  } else {
-    let GeoCode = code.split(",");
-    const [l, o] = GeoCode;
-    console.log(l, o);
-    ////// add marker user  position
-    new mapboxgl.Marker({
-      color: "red",
-    })
-      .setLngLat([o, l])
-      .setPopup(
-        new mapboxgl.Popup().setHTML(`<div><h3>User location </h3></div>`)
-      )
-      .addTo(map);
-
-    //   / fly the location
-    map.flyTo({
-      center: [o, l],
-      zoom: 13,
-      speed: 0.9,
-      curve: 1,
-      easing(t) {
-        return t;
-      },
-    });
-
-    // map.on("load", function () {
-    map.addSource(`source_circle_500+${count}`, {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            geometry: {
-              type: "Point",
-              coordinates: [o, l],
-            },
-          },
-        ],
-      },
-    });
-
-    map.addLayer({
-      id: `circle500+${count}`,
-      type: "circle",
-      source: `source_circle_500+${count}`,
-      paint: {
-        "circle-radius": {
-          stops: [
-            [2, 1],
-            [15.3, 1024],
-          ],
-          base: 2,
-        },
-        "circle-color": "blue",
-        "circle-opacity": 0.2,
-      },
-    });
-    //   });
-    count++;
-  }
-}
-
-function Create_URL_fun() {
-  code = document.getElementById("Create_URL").value;
-  if (code == "") {
-    alert("Please enter the GeoCode!");
-    document.getElementById("Create_URL").focus();
-    return false;
-  } else {
-    let GeoCode = code.split(",");
-    const [l, o] = GeoCode;
-    console.log(l, o);
-    document.getElementById(
-      "Create_URL"
-    ).value = `https://www.google.com/maps/search/?api=1&query=${l},${o}`;
-    navigator.clipboard.writeText(
-      `https://www.google.com/maps/search/?api=1&query=${l},${o}`
-    );
-    alert("URL are Copied");
-  }
-}
-document.getElementById("sp2").innerHTML = ` ${landmark.length}`;

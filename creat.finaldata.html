@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./area.js"></script>
+    <script src="./landmark_data.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let data = [];
+
+      let final_data = rowdata.map((val) => {
+        let swap = area1.filter((are) => {
+          if (val.landmark == are.landmark) {
+            return are.area;
+          }
+        });
+
+        let dar = swap.length > 0 ? swap[0].area : null;
+        console.log(dar);
+
+        let obj = {
+          name: val.name,
+          coordinates: val.coordinates, // [18.48842, 73.813704],
+          area: dar,
+          landmark: val.landmark, //"Karve Nagar- Hingane Home Colony Corner (L)",
+        };
+
+        data.push(obj);
+      });
+      navigator.clipboard.writeText(JSON.stringify(data));
+      console.log(data);
+    </script>
+  </body>
+</html>

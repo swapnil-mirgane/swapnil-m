@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV File Reader</title>
+  </head>
+  <body>
+    <input type="file" id="csvFileInput" accept=".csv" />
+    <div id="output"></div>
+
+    <script>
+      document
+        .getElementById("csvFileInput")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+
+          if (!file) {
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+            const csvData = event.target.result;
+            processData(csvData);
+          };
+
+          reader.readAsText(file);
+        });
+
+      function processData(csvData) {
+        const lines = csvData.split("\n");
+        const data = [];
+
+        lines.forEach((line) => {
+          const swap = line.split(",");
+          //   if (!values[0].startsWith("Bus")) {
+          //     data.push(values[0]);
+          //   }
+          console.log(swap);
+
+          if (!swap[0].startsWith("Bus")) {
+            // var splitResult = swap[4].split("-");
+            // console.log(splitResult);
+            let obj = {
+              name: swap[0],
+              coordinates: [Number(swap[1]), Number(swap[2])], // [18.48842, 73.813704],
+              area: null, //"karve_nagar",
+              landmark: swap[3], //"Karve Nagar- Hingane Home Colony Corner (L)",
+            };
+
+            // console.log(swap[4].split("-"));
+            data.push(obj);
+          }
+        });
+
+        // Display or process the CSV data as needed
+
+        console.log(data.length);
+        navigator.clipboard.writeText(JSON.stringify(data));
+        document.getElementById("output").innerText = JSON.stringify(data);
+      }
+    </script>
+  </body>
+</html>
